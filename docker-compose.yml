@@ -19,6 +19,7 @@ services:
 
     volumes:
       - ${CONFIG_PATH:-./data/config}:/root/.config/opencode
+      - ${DATA_PATH:-./data/app}:/root/.config/openchamber
       - ./data/auth:/root/.local/share/opencode
       - ${WORKSPACE_PATH}:/workspace
       - /var/run/docker.sock:/var/run/docker.sock
@@ -27,6 +28,6 @@ services:
 
     command: >
       sh -c "
-        git config --global --add safe.directory /workspace &&
+        configure-git-safe-directories /workspace &&
         exec openchamber --host 0.0.0.0 --port ${OPENCHAMBER_PORT} --ui-password ${UI_PASSWORD} --no-daemon
       "

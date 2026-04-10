@@ -1,0 +1,4 @@
+services:
+  openchamber:
+    volumes:
+      - ${SSH_DIR}:/root/.ssh:ro

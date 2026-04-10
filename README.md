@@ -39,10 +39,31 @@ CONFIG_PATH=./data/config
 DATA_PATH=./data/app
 ```
 
+- `CONFIG_PATH` guarda la configuración de OpenCode/proveedores.
+- `DATA_PATH` guarda el estado de OpenChamber, incluyendo proyectos recientes y sesión web.
+
 ## Levantar el stack
 
 ``` bash
 docker compose up -d --build
+```
+
+## SSH opcional
+
+Por defecto el stack ya no monta ninguna key SSH local, así que no rompe si otro dev no tiene el mismo archivo o usa otro tipo de clave.
+
+Si necesitas acceso SSH dentro del contenedor, define `SSH_DIR` en tu `.env`:
+
+``` env
+SSH_DIR=/home/tu_usuario/.ssh
+```
+
+Esto monta tu carpeta SSH completa en modo solo lectura dentro del contenedor, así que úsalo solo si realmente lo necesitas.
+
+Y levanta el stack sumando el compose opcional:
+
+``` bash
+docker compose -f docker-compose.yml -f docker-compose.ssh.yml up -d --build
 ```
 
 Abre:
@@ -72,6 +93,8 @@ Abre:
 ## Proyectos
 
 Tu carpeta de proyectos se monta en `/workspace`.
+
+Al iniciar el contenedor, el stack registra automáticamente como `safe.directory` cada repo Git detectado directamente dentro de `/workspace`.
 
 Selecciona tu repo desde OpenChamber.
 
