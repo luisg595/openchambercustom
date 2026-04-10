@@ -22,7 +22,6 @@ services:
       - ${DATA_PATH:-./data/app}:/root/.config/openchamber
       - ./data/auth:/root/.local/share/opencode
       - ${WORKSPACE_PATH}:/workspace
-      - /var/run/docker.sock:/var/run/docker.sock
 
     working_dir: /workspace
 

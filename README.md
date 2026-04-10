@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/cover.png" alt="OpenChamber cover" />
+</p>
+
 # OpenChamber + OpenCode Slim Stack
 
 Stack local para desarrollo asistido con IA usando:
@@ -5,7 +9,7 @@ Stack local para desarrollo asistido con IA usando:
 -   OpenChamber (UI web)
 -   OpenCode CLI
 -   oh-my-opencode-slim (orchestrator + subagentes)
--   Docker socket para ejecutar comandos/tests en tus proyectos
+-   Docker socket opcional para ejecutar comandos/tests en tus proyectos
 
 ## Requisitos
 
@@ -48,6 +52,24 @@ DATA_PATH=./data/app
 docker compose up -d --build
 ```
 
+## Docker socket opcional
+
+Si necesitas acceso a Docker del host desde OpenChamber, levanta el stack con el compose adicional:
+
+``` bash
+docker compose -f docker-compose.yml -f docker-compose.docker-sock.yml up -d --build
+```
+
+Si también quieres levantar simultáneamente el soporte SSH opcional, solo tienes que sumar ambos `-f` en el mismo comando:
+
+``` bash
+docker compose -f docker-compose.yml -f docker-compose.docker-sock.yml -f docker-compose.ssh.yml up -d --build
+```
+
+Ese acceso es sensible: equivale prácticamente a dar control administrativo del host a procesos dentro del contenedor. La configuración incluida deja solo algunos comandos de inspección en `allow`, pide confirmación para comandos Docker en general y deniega varios patrones de escape obvios, pero sigue siendo una superficie de alto riesgo.
+
+Mientras el Docker socket esté activo, cualquier comando `docker ...` o `docker compose ...` ejecutado vía OpenCode/OpenChamber quedará en modo `ask`, así que siempre se te consultará antes de ejecutarlo.
+
 ## SSH opcional
 
 Por defecto el stack ya no monta ninguna key SSH local, así que no rompe si otro dev no tiene el mismo archivo o usa otro tipo de clave.
@@ -64,6 +86,12 @@ Y levanta el stack sumando el compose opcional:
 
 ``` bash
 docker compose -f docker-compose.yml -f docker-compose.ssh.yml up -d --build
+```
+
+Si además quieres montar también el Docker socket opcional, usa este comando completo:
+
+``` bash
+docker compose -f docker-compose.yml -f docker-compose.docker-sock.yml -f docker-compose.ssh.yml up -d --build
 ```
 
 Abre:
@@ -88,7 +116,7 @@ Abre:
 -   Persistencia de auth
 -   Persistencia de configuración
 -   Acceso al workspace local
--   Acceso al Docker socket
+-   Acceso opcional al Docker socket
 
 ## Proyectos
 
@@ -123,4 +151,5 @@ Respalda:
 
 -   La UI está protegida con contraseña.
 -   El stack escucha solo en localhost.
+-   El Docker socket no se monta por defecto.
 -   Para acceso remoto, usa Cloudflare Tunnel o un reverse proxy seguro.
