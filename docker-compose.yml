@@ -1,0 +1,32 @@
+services:
+  openchamber:
+    build:
+      context: .
+      dockerfile: Dockerfile.openchamber
+    container_name: openchamber
+    restart: unless-stopped
+
+    ports:
+      - "127.0.0.1:${OPENCHAMBER_PORT}:${OPENCHAMBER_PORT}"
+
+    env_file:
+      - .env
+
+    environment:
+      - OPENCHAMBER_UI_PASSWORD=${UI_PASSWORD}
+      - PORT=${OPENCHAMBER_PORT}
+      - OPENCODE_BINARY=/usr/local/bin/opencode
+
+    volumes:
+      - ${CONFIG_PATH:-./data/config}:/root/.config/opencode
+      - ./data/auth:/root/.local/share/opencode
+      - ${WORKSPACE_PATH}:/workspace
+      - /var/run/docker.sock:/var/run/docker.sock
+
+    working_dir: /workspace
+
+    command: >
+      sh -c "
+        git config --global --add safe.directory /workspace &&
+        exec openchamber --host 0.0.0.0 --port ${OPENCHAMBER_PORT} --ui-password ${UI_PASSWORD} --no-daemon
+      "
