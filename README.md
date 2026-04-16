@@ -134,11 +134,6 @@ docker compose restart
 
 ## Actualizar dependencias
 
-``` bash
-docker compose down
-docker compose up -d --build
-```
-
 Si OpenChamber tiene una actualización nueva y quieres reconstruir las imágenes desde cero, usa este flujo:
 
 ``` bash
