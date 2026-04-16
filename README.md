@@ -139,6 +139,22 @@ docker compose down
 docker compose up -d --build
 ```
 
+Si OpenChamber tiene una actualización nueva y quieres reconstruir las imágenes desde cero, usa este flujo:
+
+``` bash
+docker compose down
+docker compose build --no-cache
+docker compose up -d
+```
+
+Si levantaste el stack con composes opcionales, repite el mismo conjunto de archivos en los tres comandos. Por ejemplo:
+
+``` bash
+docker compose -f docker-compose.yml -f docker-compose.docker-sock.yml -f docker-compose.ssh.yml down
+docker compose -f docker-compose.yml -f docker-compose.docker-sock.yml -f docker-compose.ssh.yml build --no-cache
+docker compose -f docker-compose.yml -f docker-compose.docker-sock.yml -f docker-compose.ssh.yml up -d
+```
+
 ## Backup recomendado
 
 Respalda:
