@@ -46,6 +46,8 @@ DATA_PATH=./data/app
 - `CONFIG_PATH` guarda la configuración de OpenCode/proveedores.
 - `DATA_PATH` guarda el estado de OpenChamber, incluyendo proyectos recientes y sesión web.
 
+Al levantar el contenedor, si `CONFIG_PATH` está vacío, el stack ahora copia la config base automáticamente. El plugin `oh-my-opencode-slim` vive dentro de la imagen, así que el bind mount de `CONFIG_PATH` ya no tapa la instalación.
+
 ## Levantar el stack
 
 ``` bash
@@ -105,6 +107,8 @@ Abre:
 3.  Inicia sesión con OpenAI
 4.  Verifica que aparezcan los agentes de oh-my-opencode-slim
 
+Si entras por primera vez y el volumen de config estaba vacío, ese bootstrap ocurre al arrancar el contenedor. Si ya tenías un volumen viejo o roto, reconstruye y reinicia para que regenere la config faltante.
+
 ## Qué incluye
 
 -   Agentes slim:
@@ -125,6 +129,8 @@ Tu carpeta de proyectos se monta en `/workspace`.
 Al iniciar el contenedor, el stack registra automáticamente como `safe.directory` cada repo Git detectado directamente dentro de `/workspace`.
 
 Selecciona tu repo desde OpenChamber.
+
+Si en logs ves `GET /api/git/branches` seguido de `fatal: not a git repository`, normalmente significa que la UI todavía está apuntando a `/workspace` o a una carpeta padre que no es repo Git. No suele ser un fallo del stack: desaparece al abrir un proyecto que sí tenga `.git` o al montar directamente la raíz del repo como `WORKSPACE_PATH`.
 
 ## Reiniciar
 
