@@ -39,12 +39,14 @@ Crea tu archivo `.env`:
 WORKSPACE_PATH=/ruta/a/tus/proyectos
 OPENCHAMBER_PORT=puerto_para_levantar_la_ui
 UI_PASSWORD=tu_clave_segura
+
 CONFIG_PATH=./data/config
 DATA_PATH=./data/app
 ```
 
 - `CONFIG_PATH` guarda la configuración de OpenCode/proveedores.
 - `DATA_PATH` guarda el estado de OpenChamber, incluyendo proyectos recientes y sesión web.
+- El callback OAuth de OpenCode/OpenAI queda publicado automáticamente en `127.0.0.1:1455`, porque OpenCode devuelve el navegador a `http://localhost:1455/auth/callback`. No es el puerto de la UI de OpenChamber.
 
 Al levantar el contenedor, si `CONFIG_PATH` está vacío, el stack ahora copia la config base automáticamente. El plugin `oh-my-opencode-slim` vive dentro de la imagen, así que el bind mount de `CONFIG_PATH` ya no tapa la instalación.
 
@@ -106,6 +108,8 @@ Abre:
 2.  Ve a Providers
 3.  Inicia sesión con OpenAI
 4.  Verifica que aparezcan los agentes de oh-my-opencode-slim
+
+Durante el login con OpenAI es normal ver una URL de callback en `http://localhost:1455/auth/callback`: ese puerto pertenece al flujo OAuth de OpenCode y el compose lo publica automáticamente, mientras que la UI de OpenChamber sigue en `OPENCHAMBER_PORT`.
 
 Si entras por primera vez y el volumen de config estaba vacío, ese bootstrap ocurre al arrancar el contenedor. Si ya tenías un volumen viejo o roto, reconstruye y reinicia para que regenere la config faltante.
 

@@ -15,4 +15,7 @@ RUN mkdir -p /opt/openchamber/plugins \
 
 COPY config-template /opt/openchamber/config-template
 
+# OpenCode/OpenAI browser auth callback. La UI de OpenChamber usa OPENCHAMBER_PORT.
+EXPOSE 1455
+
 WORKDIR /workspace

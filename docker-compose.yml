@@ -8,6 +8,9 @@ services:
 
     ports:
       - "127.0.0.1:${OPENCHAMBER_PORT}:${OPENCHAMBER_PORT}"
+      # OpenCode/OpenAI browser auth devuelve siempre a localhost:1455/auth/callback.
+      # Debe estar publicado aunque la UI de OpenChamber use otro puerto.
+      - "127.0.0.1:1455:1455"
 
     env_file:
       - .env
