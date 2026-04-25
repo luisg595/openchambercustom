@@ -1,5 +1,5 @@
 {
-  "preset": "my-mix-free",
+  "preset": "openai",
   "presets": {
     "openai": {
       "orchestrator": {
@@ -52,7 +52,7 @@
     },
     "my-mix-free": {
       "orchestrator": {
-        "model": "opencode/nemotron-3-super-free",
+        "model": "opencode/minimax-m2.5-free",
         "skills": [
           "*"
         ],
@@ -61,7 +61,7 @@
         ]
       },
       "oracle": {
-        "model": "opencode/nemotron-3-super-free",
+        "model": "opencode/minimax-m2.5-free",
         "variant": "high",
         "skills": [
           "simplify"
@@ -69,7 +69,7 @@
         "mcps": []
       },
       "librarian": {
-        "model": "opencode/minimax-m2.5-free",
+        "model": "opencode/nemotron-3-super-free",
         "variant": "low",
         "skills": [],
         "mcps": [
@@ -79,13 +79,13 @@
         ]
       },
       "explorer": {
-        "model": "opencode/minimax-m2.5-free",
+        "model": "opencode/nemotron-3-super-free",
         "variant": "low",
         "skills": [],
         "mcps": []
       },
       "designer": {
-        "model": "opencode/minimax-m2.5-free",
+        "model": "opencode/nemotron-3-super-free",
         "variant": "medium",
         "skills": [
           "agent-browser"
@@ -93,7 +93,7 @@
         "mcps": []
       },
       "fixer": {
-        "model": "opencode/minimax-m2.5-free",
+        "model": "opencode/nemotron-3-super-free",
         "variant": "low",
         "skills": [],
         "mcps": []
