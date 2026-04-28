@@ -9,7 +9,7 @@ COPY scripts/bootstrap-opencode-config.sh /usr/local/bin/bootstrap-opencode-conf
 RUN chmod +x /usr/local/bin/configure-git-safe-directories
 RUN chmod +x /usr/local/bin/bootstrap-opencode-config
 
-RUN npm install -g opencode-ai @openchamber/web
+RUN npm install -g opencode-ai @openchamber/web @fission-ai/openspec@latest
 RUN mkdir -p /opt/openchamber/plugins \
     && npm install --prefix /opt/openchamber/plugins oh-my-opencode-slim
 
