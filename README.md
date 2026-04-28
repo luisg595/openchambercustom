@@ -8,6 +8,7 @@ Stack local para desarrollo asistido con IA usando:
 
 -   OpenChamber (UI web)
 -   OpenCode CLI
+-   OpenSpec CLI para flujos de specs por proyecto
 -   oh-my-opencode-slim (orchestrator + subagentes)
 -   Docker socket opcional para ejecutar comandos/tests en tus proyectos
 
@@ -121,6 +122,7 @@ Si entras por primera vez y el volumen de config estaba vacío, ese bootstrap oc
     -   librarian
     -   explorer
     -   designer
+-   OpenSpec CLI (`openspec`) disponible dentro del contenedor
 -   Persistencia de auth
 -   Persistencia de configuración
 -   Acceso al workspace local
@@ -135,6 +137,48 @@ Al iniciar el contenedor, el stack registra automáticamente como `safe.director
 Selecciona tu repo desde OpenChamber.
 
 Si en logs ves `GET /api/git/branches` seguido de `fatal: not a git repository`, normalmente significa que la UI todavía está apuntando a `/workspace` o a una carpeta padre que no es repo Git. No suele ser un fallo del stack: desaparece al abrir un proyecto que sí tenga `.git` o al montar directamente la raíz del repo como `WORKSPACE_PATH`.
+
+## OpenSpec
+
+La imagen incluye `@fission-ai/openspec`, pero OpenSpec se inicializa por proyecto, no en la carpeta padre `/workspace`.
+
+Dentro de OpenChamber/OpenCode, abre el repo donde quieras usar specs y ejecuta:
+
+``` bash
+cd /workspace/tu-proyecto
+openspec init --tools opencode --profile core
+```
+
+Esto crea los artefactos del proyecto:
+
+``` text
+openspec/
+.opencode/commands/
+.opencode/skills/
+```
+
+Flujo básico desde el chat de OpenCode:
+
+``` text
+/opsx:propose agregar-una-funcionalidad
+/opsx:apply
+/opsx:archive
+```
+
+Comandos útiles desde terminal:
+
+``` bash
+openspec list
+openspec validate <change-name>
+openspec view
+```
+
+Si quieres habilitar comandos del workflow expandido (`/opsx:new`, `/opsx:continue`, `/opsx:ff`, `/opsx:verify`, `/opsx:sync`, etc.), ejecuta dentro del repo:
+
+``` bash
+openspec config profile
+openspec update
+```
 
 ## Reiniciar
 
